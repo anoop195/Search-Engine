@@ -1,0 +1,6 @@
+This is a basic search engine.
+The components include:
+crawler.py
+	This file starts crwaling.You need to set a seedLink in this file from where crwaling starts.
+	NOTE:This crawler will ignore robot.txt.Future version needs to crwal pages which allows crawling through robot.txt
+
