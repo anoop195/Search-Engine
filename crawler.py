@@ -1,22 +1,25 @@
 import urllib2
 
 seedLink = 'https://www.udacity.com/cs101x/index.html'
-# seedLink='https://www.youtube.com'
-searchMap = {}
 
+searchMap = {}
+countMap = {}
 '''This will populate the hashmap storing the keywords found on webpage and the links which contains
 those keywords.'''
 
 
 def populateSearchMap(uniqueWordsOnPage, link):
     global searchMap
+    global countMap
     for word in uniqueWordsOnPage:
         word = word.strip()
         if not word:
             continue
         if word in searchMap:
+            countMap[word] = countMap[word] + 1
             searchMap[word].append(link)
         else:
+            countMap[word] = 1
             searchMap[word] = [link]
 
 
@@ -63,18 +66,18 @@ def mergeLists(resultUrls, urls):
 
 # This will extract all the words from the page and return in a list
 def extractTextContentOfPage(content):
-    uniqueWordsOnPage = []
+    wordsOnPage = []
     while True:
         startPosition = content.find('>')
         endPosition = content.find('<', startPosition + 1)
         if startPosition < 0 or endPosition < 0:
-            return uniqueWordsOnPage
+            return wordsOnPage
         word = content[startPosition + 1:endPosition]
-        if word not in uniqueWordsOnPage:
-            mergeLists(uniqueWordsOnPage, word.split(' '))
+        mergeLists(wordsOnPage, word.split(' '))
         content = content[endPosition + 1:]
 
 
 # Code which starts the crawler and populates the hashmap storing the inverted index
 startCrawl(seedLink)
 print searchMap
+print countMap
